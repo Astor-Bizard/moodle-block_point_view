@@ -139,7 +139,7 @@
 
 .block_point_view.reactions-container .nbselected {
     font-weight: bold;
-    color: #5585B6;
+    color: #5585b6;
 }
 
 /* Difficulty tracks */
@@ -229,7 +229,7 @@
     grid-template-columns: repeat(2, auto);
 }
 
-.block_point_view .pixselectgroup>* {
+.block_point_view .pixselectgroup > * {
     justify-content: start;
 }
 
@@ -253,18 +253,18 @@
 
 /* Some adjustments for More/Clean themes */
 .block_point_view .pixselectgroup + #fgroup_id_pixselectgroup fieldset > span {
-	display: block;
+    display: block;
     line-height: 35px;
 }
 
 .block_point_view .fcontainer > .pixselectgroup {
     position: relative;
-    grid-template-columns: repeat(1,auto);
+    grid-template-columns: repeat(1, auto);
     top: 5px;
 }
 
 .block_point_view .fcontainer > .pixselectgroup > * {
-    position:absolute;
+    position: absolute;
     left: 400px;
     overflow: auto;
     white-space: nowrap;

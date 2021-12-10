@@ -15,7 +15,6 @@
 
 /**
  * Defines the behavior of the overview (reactions details) page of a Point of View block.
- * @package    block_point_view
  * @copyright  2020 Quentin Fombaron, 2021 Astor Bizard
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

@@ -15,7 +15,6 @@
 
 /**
  * Module to display and manage reactions and difficulty tracks on course page.
- * @package    block_point_view
  * @copyright  2020 Quentin Fombaron, 2021 Astor Bizard
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -30,9 +29,9 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 
         // The following listener is needed for the Tiles course format, where sections are loaded on demand.
         $(document).ajaxComplete(function(event, xhr, settings) {
-            if (typeof(settings.data) !== 'undefined') {
+            if (typeof (settings.data) !== 'undefined') {
                 var data = JSON.parse(settings.data);
-                if (data.length > 0 && typeof(data[0].methodname) !== 'undefined') {
+                if (data.length > 0 && typeof (data[0].methodname) !== 'undefined') {
                     if (data[0].methodname == 'format_tiles_get_single_section_page_html' // Tile load.
                         || data[0].methodname == 'format_tiles_log_tile_click') { // Tile load, cached.
                         call();
@@ -83,7 +82,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
      */
     function $get(moduleId, selector) {
         var $element = $('#module-' + moduleId + ' .block_point_view.reactions-container');
-        if (typeof(selector) === 'undefined') {
+        if (typeof (selector) === 'undefined') {
             return $element;
         } else {
             return $element.find(selector);
@@ -157,6 +156,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
      * @param {Number} courseId Course ID.
      * @param {Number} moduleId Module ID.
      * @param {String} reactionName The reaction being clicked.
+     * @returns {Promise} A promise, result of the change operations (ajax call and UI update).
      */
     function reactionChange(courseId, moduleId, reactionName) {
 
@@ -227,7 +227,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
         var digits = Math.min(('' + totalNb).length, 5);
         $groupNb.css({
             'right': Math.max(0.25 * (digits - 2), 0) + 'em',
-            'transform': 'scaleX(' + (1.0 + 0.03*digits*digits - 0.35 * digits + 0.34) + ')'
+            'transform': 'scaleX(' + (1.0 + 0.03 * digits * digits - 0.35 * digits + 0.34) + ')'
         });
     }
 
@@ -282,14 +282,14 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
             $('#module-' + moduleId + ' .actions').delay(200).hide(300);
 
             ['easy', 'better', 'hard'].forEach(function(reaction, index) {
-                var delay = 50 + 150 * index; // easy: 50, better: 200, hard: 350.
+                var delay = 50 + 150 * index; // Easy: 50, better: 200, hard: 350.
 
                 $get(moduleId, '.reaction img[data-reactionname="' + reaction + '"]')
                 .delay(delay).animate(reactionImageSizeForRatio(1), 300)
                 .css({'pointer-events': 'auto'});
 
                 $get(moduleId, '.reactionnb[data-reactionname="' + reaction + '"]')
-                .delay(delay+300)
+                .delay(delay + 300)
                 .queue(function(next) {
                     $(this).addClass('shown');
                     next();
@@ -300,7 +300,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
         // Animation sequence to hide vote interface and show reaction preview.
         var hideReactions = function(moduleId) {
             ['hard', 'better', 'easy'].forEach(function(reaction, index) {
-                var delay = 50 + 250 * index; // hard: 50, better: 300, easy: 550.
+                var delay = 50 + 250 * index; // Hard: 50, better: 300, easy: 550.
                 $get(moduleId, '.reaction img[data-reactionname="' + reaction + '"]')
                 .css({'pointer-events': 'none'})
                 .delay(delay).animate(reactionImageSizeForRatio(0), 500);

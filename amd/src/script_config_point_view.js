@@ -15,7 +15,6 @@
 
 /**
  * Defines the behavior of the configuration page of a Point of View block.
- * @package    block_point_view
  * @copyright  2020 Quentin Fombaron, 2021 Astor Bizard
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -61,7 +60,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 
         $('.enablemodulereactions').change(function() {
             updateEnableDisableButtonsFor($(this).data('type')); // Update Enable/Disable buttons state for module type.
-            updateEnableDisableButtonsFor($(this).data('section'));  // Update Enable/Disable buttons state for section.
+            updateEnableDisableButtonsFor($(this).data('section')); // Update Enable/Disable buttons state for section.
         });
 
         $('.enable-disable button').each(function() {
