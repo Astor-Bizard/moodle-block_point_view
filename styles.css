@@ -83,7 +83,8 @@
     vertical-align: sub;
 }
 
-.block_point_view.reactions-container .reactionnb:not(.shown) {
+.block_point_view.reactions-container .reactionnb:not(.shown),
+.block_point_view.reactions-container .reactions.collapsed {
     visibility: hidden;
 }
 

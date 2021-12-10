@@ -272,6 +272,8 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 
         // Animation sequence to hide reactions preview and show vote interface.
         var showReactions = function(moduleId) {
+            $get(moduleId, '.reactions').removeClass('collapsed');
+
             $get(moduleId, '.group_img')
             .css({'pointer-events': 'none'})
             .animate(groupImageSizeForRatio(0), 300)
@@ -318,6 +320,9 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
             .delay(500)
             .show(0)
             .animate(groupImageSizeForRatio(1), 300)
+            .queue(function(next) {
+                $get(moduleId, '.reactions').addClass('collapsed');
+            })
             .css({'pointer-events': 'auto'});
 
             $get(moduleId, '.group_nb').delay(600).show(0);
