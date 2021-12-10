@@ -322,6 +322,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
             .animate(groupImageSizeForRatio(1), 300)
             .queue(function(next) {
                 $get(moduleId, '.reactions').addClass('collapsed');
+                next();
             })
             .css({'pointer-events': 'auto'});
 
