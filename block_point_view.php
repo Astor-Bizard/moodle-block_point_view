@@ -116,8 +116,12 @@ class block_point_view extends block_base {
                 $pix = $CFG->wwwroot . '/blocks/point_view/pix/overview.png';
 
                 $this->content->text .= html_writer::link(
-                    $url,
-                        '<img src="' . $pix . '" class="block_point_view overview-link" alt="' . $title . '"/>',
+                        $url,
+                        html_writer::empty_tag('img', array(
+                                'src' => $pix,
+                                'alt' => $title,
+                                'class' => 'block_point_view overview-link'
+                        )),
                         array('title' => $title)
                 );
             }
@@ -189,7 +193,7 @@ class block_point_view extends block_base {
             $datanode = html_writer::span('', 'block_point_view', array(
                     'data-blockdata' => json_encode($blockdata), 'style' => 'display:none;'
             ));
-            $this->page->requires->js_init_code('document.getElementsByClassName("block-region")[0]
+            $this->page->requires->js_init_code('document.getElementsByClassName("course-content")[0]
                                                  .insertAdjacentHTML("beforeend", "' . addslashes_js($datanode) . '");');
 
             $strings = array('totalreactions', 'greentrack', 'bluetrack', 'redtrack', 'blacktrack');
