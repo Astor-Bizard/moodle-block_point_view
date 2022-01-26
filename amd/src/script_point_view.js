@@ -220,7 +220,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
         .attr('title', M.util.get_string('totalreactions', 'block_point_view', totalNb));
 
         $groupNbWrapper
-        .toggleClass('novote', totalNb === 0)
+        .toggleClass('invisible', totalNb === 0)
         .toggleClass('voted', reactionVotedArray[moduleId] !== Reactions.none);
 
         // Adjust the size to fit within a fixed space (useful for the green dot).
@@ -272,7 +272,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 
         // Animation sequence to hide reactions preview and show vote interface.
         var showReactions = function(moduleId) {
-            $get(moduleId, '.reactions').removeClass('collapsed');
+            $get(moduleId, '.reactions').removeClass('invisible');
 
             $get(moduleId, '.group_img')
             .css({'pointer-events': 'none'})
@@ -293,7 +293,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
                 $get(moduleId, '.reactionnb[data-reactionname="' + reaction + '"]')
                 .delay(delay + 300)
                 .queue(function(next) {
-                    $(this).addClass('shown');
+                    $(this).removeClass('invisible');
                     next();
                 });
             });
@@ -310,7 +310,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
                 $get(moduleId, '.reactionnb[data-reactionname="' + reaction + '"]')
                 .delay(delay)
                 .queue(function(next) {
-                    $(this).removeClass('shown');
+                    $(this).addClass('invisible');
                     next();
                 });
             });
@@ -321,7 +321,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
             .show(0)
             .animate(groupImageSizeForRatio(1), 300)
             .queue(function(next) {
-                $get(moduleId, '.reactions').addClass('collapsed');
+                $get(moduleId, '.reactions').addClass('invisible');
                 next();
             })
             .css({'pointer-events': 'auto'});

@@ -1,7 +1,5 @@
 /* Tooltip container */
 .block_point_view.reactions-container .withtooltip {
-    position: relative;
-    display: inline-block;
     pointer-events: none;
 }
 
@@ -77,20 +75,11 @@
 
 /**********************/
 
-.block_point_view.reactions-container .reactionnb {
-    margin-left: 7px;
-    margin-right: 12px;
-    vertical-align: sub;
-}
-
-.block_point_view.reactions-container .reactionnb:not(.shown),
-.block_point_view.reactions-container .reactions.collapsed {
-    visibility: hidden;
-}
-
-.block_point_view.reactions-container .reaction {
+.block_point_view.reactions-container .reaction,
+.block_point_view.reactions-container .group_img {
     height: 20px;
-    width: 20px;
+    min-width: 20px;
+    cursor: pointer;
 }
 
 .block_point_view.reactions-container .reaction img {
@@ -98,28 +87,25 @@
     top: 15px;
     left: 10px;
     height: 0;
-    cursor: pointer;
     width: auto;
     max-width: unset;
 }
 
-.block_point_view.reactions-container .reaction img.novote:not(:hover) {
+.block_point_view.reactions-container .reaction img.novote:not(:hover),
+.block_point_view .cell.novote {
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
 }
 
-.block_point_view.reactions-container .group_img {
-    height: 20px;
-    position: relative;
-    cursor: pointer;
+.block_point_view.reactions-container .reactionnb,
+.block_point_view.reactions-container .group_nb {
+    vertical-align: sub;
 }
 
 .block_point_view.reactions-container .group_nb {
     width: 1.1em;
     height: 1.1em;
     display: inline-block;
-    text-align: center;
-    vertical-align: sub;
 }
 
 .block_point_view.reactions-container .group_nb.voted {
@@ -127,15 +113,6 @@
     color: white;
     background: #66ad89;
     line-height: 1em;
-}
-
-.block_point_view.reactions-container .group_nb.novote {
-    visibility: hidden;
-}
-
-.block_point_view.reactions-container .group_nb span {
-    position: relative;
-    display: inline-block;
 }
 
 .block_point_view.reactions-container .nbselected {
@@ -162,80 +139,24 @@
 }
 
 /* Menu button in block content */
-.block_point_view.overview-link {
-    display: block;
+.block_point_view .overview-link {
     max-height: 40px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
 }
 
-.block_point_view.overview-link:hover {
+.block_point_view .overview-link:hover {
     -webkit-filter: invert(100%);
     filter: invert(100%);
 }
 
-/* Emojis of overview table */
-.block_point_view .overview_img {
-    width: 30px;
-    vertical-align: bottom;
-    margin-right: .2em;
-}
-
-/** Colums of the overview table **/
-
-/* Disable selection */
-.block_point_view .c6 {
-    font-weight: bold;
-    font-size: 1.5em;
-    -moz-user-select: none;
-    -o-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-.block_point_view .c5,
-.block_point_view .c6 {
-    text-align: center;
-}
-
-.block_point_view .reactions-col,
-.block_point_view .c6 {
-    cursor: pointer;
-}
-
-.block_point_view .cell.novote {
-    -webkit-filter: grayscale(100%);
-    filter: grayscale(100%);
-}
-
+.block_point_view .overview_img,
 .block_point_view .pix-preview {
-    margin: .2em 0;
     width: 30px;
-}
-
-.block_point_view .section-header {
-    padding-top: 1em;
-}
-
-.block_point_view .enable-disable button {
-    margin-right: .3em;
 }
 
 .block_point_view .pixselectgroup {
     display: grid;
     grid-auto-flow: row;
     grid-template-columns: repeat(2, auto);
-}
-
-.block_point_view .pixselectgroup > * {
-    justify-content: start;
-}
-
-.block_point_view .pixselectgroup #delete_custom_pix {
-    margin-left: 1em;
 }
 
 /* Some adjustments for Adaptable theme */

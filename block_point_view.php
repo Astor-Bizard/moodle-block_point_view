@@ -120,7 +120,7 @@ class block_point_view extends block_base {
                         html_writer::empty_tag('img', array(
                                 'src' => $pix,
                                 'alt' => $title,
-                                'class' => 'block_point_view overview-link'
+                                'class' => 'overview-link d-block mx-auto text-center'
                         )),
                         array('title' => $title)
                 );

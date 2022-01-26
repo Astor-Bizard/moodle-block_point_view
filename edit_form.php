@@ -122,7 +122,7 @@ class block_point_view_edit_form extends block_edit_form {
                             $sectionname,
                             'enable_disable_section',
                             'data-section="sec' . $sectionid . '"',
-                            array('class' => 'section-header'));
+                            array('class' => 'p-t-1'));
 
                     $oldsection = $cm->sectionnum;
                 }
@@ -337,7 +337,7 @@ class block_point_view_edit_form extends block_edit_form {
                     $elementname,
                     html_writer::empty_tag('img', array(
                             'src' => $current[$file],
-                            'class' => 'pix-preview currentpix',
+                            'class' => 'pix-preview currentpix my-1',
                             'alt' => $defaulttext,
                             'data-reaction' => $file
                     )) .
@@ -362,13 +362,13 @@ class block_point_view_edit_form extends block_edit_form {
      */
     protected function create_emoji_radioselect(&$mform, &$group, $value, $pix, $additionallegend = null) {
         $group[] = $mform->createElement('radio', 'config_pixselect', '',
-                get_string($value . 'pix', 'block_point_view'), $value, array('class' => 'pr-2 m-r-0 w-100'));
+                get_string($value . 'pix', 'block_point_view'), $value, array('class' => 'pr-2 m-r-0 w-100 justify-content-start'));
 
         $legend = '<label for="id_config_pixselect_' . $value . '" class="d-inline-block">';
         foreach ($pix[$value] as $file => $src) {
             $legend .= html_writer::empty_tag('img', array(
                     'src' => $src,
-                    'class' => 'pix-preview',
+                    'class' => 'pix-preview my-1',
                     'data-reaction' => $file,
                     'data-source' => $value
             ));
@@ -389,7 +389,7 @@ class block_point_view_edit_form extends block_edit_form {
      * @return string HTML fragment for the button.
      */
     protected function get_action_button($id, $str, $a = null) {
-        return '<button id="' . $id . '" class="btn btn-outline-warning" type="button">' .
+        return '<button id="' . $id . '" class="btn btn-outline-warning m-l-1" type="button">' .
                    get_string($str, 'block_point_view', $a) .
                '</button>';
     }

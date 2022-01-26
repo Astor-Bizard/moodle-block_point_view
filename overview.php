@@ -122,7 +122,7 @@ foreach ($cms as $cm) {
                 $votecell = new html_table_cell(
                         html_writer::empty_tag('img', array(
                                 'src' => $pixparam[$difficulty],
-                                'class' => 'overview_img',
+                                'class' => 'overview_img align-bottom mr-1',
                                 'alt' => $text,
                                 'title' => $text
                         )) .
@@ -176,7 +176,7 @@ foreach ($cms as $cm) {
             $detailsrow->style = 'display: none;';
 
             array_push($tabledata,
-                    array_merge($data, array( '<i class="fa fa-fw fa-caret-right" style="display: none;"></i>' )),
+                    array_merge($data, array( '<i class="fa fa-fw fa-lg fa-caret-right" style="display: none;"></i>' )),
                     $detailsrow
                     );
 
@@ -264,11 +264,11 @@ if (!empty($result)) {
     $table->colclasses = array(
             '',
             '',
-            'reactions-col',
-            'reactions-col',
-            'reactions-col',
-            '',
-            ''
+            'reactions-col clickable',
+            'reactions-col clickable',
+            'reactions-col clickable',
+            'text-center',
+            'text-center clickable font-weight-bold'
     );
 
     $table->data = $tabledata;
