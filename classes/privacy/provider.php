@@ -26,8 +26,6 @@
 
 namespace block_point_view\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 use \core_privacy\local\metadata\collection;
 use core_privacy\local\request\approved_userlist;
 use \core_privacy\local\request\contextlist;
@@ -50,8 +48,7 @@ class provider implements
     \core_privacy\local\request\core_userlist_provider,
 
     // This tool may provide access to and deletion of user data.
-    \core_privacy\local\request\plugin\provider
-{
+    \core_privacy\local\request\plugin\provider {
 
     /**
      * Point of View Metadata

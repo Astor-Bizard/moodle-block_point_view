@@ -22,8 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Performs database actions to upgrade from older versions, if required.
  * @param int $oldversion Plugin version we are upgrading from.

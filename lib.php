@@ -25,8 +25,6 @@
 
 use core\session\manager;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Callback checking permissions and preparing the file for serving plugin files.
  *
