@@ -204,7 +204,7 @@ function block_point_view_get_modules_with_reactions($blockinstance, $userid, $c
             FROM {course_modules} cm
             LEFT JOIN (SELECT cmid, vote FROM {block_point_view} WHERE userid = :userid) bpv ON bpv.cmid = cm.id
             WHERE cm.course = :courseid AND cm.id ' . $insql . '
-            GROUP BY cm.id';
+            GROUP BY cm.id, bpv.vote';
 
         $result = array_values($DB->get_records_sql($sql, $params));
         foreach ($result as &$cmrow) {
@@ -230,7 +230,7 @@ function block_point_view_get_modules_with_reactions($blockinstance, $userid, $c
                     WHERE userid = :userid) AS tableuser ON tableuser.cmid = cm.id
             WHERE cm.id ' . $insql . '
             AND cm.course = :courseid
-            GROUP BY cm.id';
+            GROUP BY cm.id, tableeasy.totaleasy, tablebetter.totalbetter, tablehard.totalhard, tableuser.vote';
 
         // TODO optimize this loading time, maybe add some indexes to the table.
 
