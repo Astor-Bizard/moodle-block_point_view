@@ -59,8 +59,8 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
                 'title': title,
                 'style': 'background-color: ' + trackColors[difficultyLevel] + ';'
             });
-            // Decide where to put the track.
-            var $container = $('#module-' + module.id + ' .mod-indent-outer');
+            // Decide where to put the track (mod-indent-outer: Moodle <=3.11, activitytitle: Moodle 4.0+).
+            var $container = $('#module-' + module.id + ' .mod-indent-outer, #module-' + module.id + ' .activitytitle').first();
 
             // Add the track.
             if ($container.find('.block_point_view.track').length === 0) {
@@ -119,7 +119,13 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
             if ($('#module-' + moduleId).length === 1 && $get(moduleId).length === 0) {
 
                 // Add the reaction zone to the module.
-                $('#module-' + moduleId).prepend(reactionsHtml);
+                if ($('#module-' + moduleId + ' .activity-instance').length) {
+                    // Moodle 4.0+.
+                    $('#module-' + moduleId + ' .activity-instance').after(reactionsHtml);
+                } else {
+                    // Moodle <=3.11.
+                    $('#module-' + moduleId).prepend(reactionsHtml);
+                }
 
                 // Setup reaction change.
                 var reactionsLock = false;
@@ -281,7 +287,21 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 
             $get(moduleId, '.group_nb').delay(200).hide(300);
 
-            $('#module-' + moduleId + ' .actions').delay(200).hide(300);
+            // Several selectors for Moodle <=3.11 and 4.0+ compatibility.
+            $('#module-' + moduleId + ' .actions,' +
+              '#module-' + moduleId + ' .activity-info button[data-action="toggle-manual-completion"],' +
+              '#module-' + moduleId + ' .activity-info .automatic-completion-conditions > span.badge:first-of-type').delay(200).queue(function(next) {
+                // Use opacity transition for a smooth hiding.
+                $(this).css({
+                    opacity: 0,
+                    transition : 'opacity 0.3s ease-in-out'
+                });
+                next();
+            }).delay(300).queue(function(next) {
+                // Actually make the element invisible to avoid accidental clicking on transparent element.
+                $(this).addClass('invisible');
+                next();
+            });
 
             ['easy', 'better', 'hard'].forEach(function(reaction, index) {
                 var delay = 50 + 150 * index; // Easy: 50, better: 200, hard: 350.
@@ -328,7 +348,18 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 
             $get(moduleId, '.group_nb').delay(600).show(0);
 
-            $('#module-' + moduleId + ' .actions').delay(600).show(300);
+            // Several selectors for Moodle <=3.11 and 4.0+ compatibility.
+            $('#module-' + moduleId + ' .actions,' +
+              '#module-' + moduleId + ' .activity-info button[data-action="toggle-manual-completion"],' +
+              '#module-' + moduleId + ' .activity-info .automatic-completion-conditions > span.badge:first-of-type').delay(600).queue(function(next) {
+                $(this).removeClass('invisible');
+                // Use opacity transition for a smooth showing back.
+                $(this).css({
+                    opacity: 1,
+                    transition : 'opacity 0.3s ease-in-out'
+                });
+                next();
+            });
         };
 
         // Setup some timeouts and locks to trigger animations.
@@ -398,8 +429,8 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
                     setUpReactions(courseId, blockData.moduleswithreactions, blockData.reactionstemplate, blockData.pix);
                 });
 
-                // Add shade on hover of a course module.
-                $('.activity')
+                // Add shade on hover of a course module (for Moodle <=3.11).
+                $('.activity:not(.activity-wrapper)')
                 .mouseover(function() {
                     $(this).css({
                         'background': 'linear-gradient(to right, rgba(0,0,0,0.04), rgba(0,0,0,0.04), transparent)',

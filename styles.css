@@ -55,6 +55,11 @@
     position: relative;
 }
 
+/* For Moodle 4.0+. */
+.activity-wrapper .block_point_view.reactions-container {
+    flex: 1 0;
+}
+
 .block_point_view.reactions-container ~ .mod-indent-outer,
 .block_point_view.reactions-container ~ div .mod-indent-outer {
     max-width: 80%;
@@ -67,10 +72,21 @@
     user-select: none;
 }
 
+/* For Moodle 4.0+. */
+.activity-wrapper .block_point_view.reactions-container .reactions {
+    right: -60px;
+    width: max-content;
+}
+
 .block_point_view.reactions-container .group {
     position: absolute;
     right: 50px;
     top: 0;
+}
+
+/* For Moodle 4.0+. */
+.activity-wrapper .block_point_view.reactions-container .group {
+    right: 8px;
 }
 
 /**********************/
@@ -132,6 +148,11 @@
     padding: 0;
     position: absolute;
     margin-left: -15px;
+}
+
+/* For Moodle 4.0+. */
+.path-course-view .activity-instance .block_point_view.track {
+    height: 50px;
 }
 
 .block_point_view.selecttrack {
