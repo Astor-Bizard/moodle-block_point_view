@@ -98,6 +98,20 @@ function block_point_view_pluginfile($course, $bi, $context, $filearea, $args, $
 }
 
 /**
+ * Returns the list if Moodle features this block supports.
+ * @param string $feature FEATURE_xx constant.
+ * @return boolean|null Whether this block supports feature, null if unspecified.
+ */
+function block_point_view_supports($feature) {
+    switch($feature) {
+        case FEATURE_BACKUP_MOODLE2 :
+            return true;
+        default:
+            return null;
+    }
+}
+
+/**
  * Perform global search replace such as when migrating site to new URL.
  *
  * @param string $search
