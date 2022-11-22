@@ -429,18 +429,6 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
                     setUpReactions(courseId, blockData.moduleswithreactions, blockData.reactionstemplate, blockData.pix);
                 });
 
-                // Add shade on hover of a course module (for Moodle <=3.11).
-                $('.activity:not(.activity-wrapper)')
-                .mouseover(function() {
-                    $(this).css({
-                        'background': 'linear-gradient(to right, rgba(0,0,0,0.04), rgba(0,0,0,0.04), transparent)',
-                        'border-radius': '5px'
-                    });
-                })
-                .mouseout(function() {
-                    $(this).css({'background': ''});
-                });
-
             });
         }
     };

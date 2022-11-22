@@ -79,6 +79,9 @@ class block_point_view_edit_form extends block_edit_form {
             $this->add_checkbox_with_help($mform, 'config_show_other_users_reactions', 'showotherreactions', 1);
             $mform->disabledIf('config_show_other_users_reactions', 'config_enable_point_views', 'eq', 0);
 
+            $this->add_checkbox_with_help($mform, 'config_highlight_activity_rows', 'highlightactivityrows', 1);
+            $mform->disabledIf('config_highlight_activity_rows', 'config_enable_point_views', 'eq', 0);
+
             // Difficulty tracks activation.
             $mform->addElement('selectyesno', 'config_enable_difficultytracks',
                     get_string('enabledifficulties', 'block_point_view'));

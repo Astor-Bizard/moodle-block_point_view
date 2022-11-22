@@ -124,8 +124,19 @@ class block_point_view extends block_base {
                 );
             }
 
-        } else if (!get_config('block_point_view', 'enable_point_views_admin')
-            && has_capability('block/point_view:addinstance', $this->context)) {
+            if (($this->config->highlight_activity_rows ?? true)
+                    && !empty($this->config->enable_point_views)
+                    && !$this->page->user_is_editing()) {
+                // Add shade on hover of a course module (for Moodle <=3.11).
+                $this->content->text .= '<style type="text/css">
+                                            .activity:not(.activity-wrapper):hover{
+                                                background:linear-gradient(to right,rgba(0,0,0,0.04),rgba(0,0,0,0.04),transparent);
+                                                border-radius:5px;
+                                            }
+                                        </style>';
+            }
+
+        } else if (has_capability('block/point_view:addinstance', $this->context)) {
 
             $this->content->text = get_string('blockdisabled', 'block_point_view');
 
