@@ -98,7 +98,7 @@ function block_point_view_pluginfile($course, $bi, $context, $filearea, $args, $
 }
 
 /**
- * Returns the list if Moodle features this block supports.
+ * Returns the list of Moodle features this block supports.
  * @param string $feature FEATURE_xx constant.
  * @return boolean|null Whether this block supports feature, null if unspecified.
  */

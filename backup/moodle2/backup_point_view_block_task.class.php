@@ -21,6 +21,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+require_once(__DIR__ . '/backup_point_view_stepslib.php');
+
 /**
  * Specialised backup task for the point_view block.
  *
@@ -39,6 +42,7 @@ class backup_point_view_block_task extends backup_block_task {
      * Define (add) particular steps that this block can have
      */
     protected function define_my_steps() {
+        $this->add_step( new backup_point_view_block_structure_step('point_view_structure', 'point_view.xml') );
     }
 
     /**

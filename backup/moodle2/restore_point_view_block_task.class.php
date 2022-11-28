@@ -21,6 +21,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+require_once(__DIR__ . '/restore_point_view_stepslib.php');
+
 /**
  * Specialised restore task for the point_view block (using execute_after_tasks for recoding of target activity)
  *
@@ -39,6 +42,7 @@ class restore_point_view_block_task extends restore_block_task {
      * Define (add) particular steps that this block can have
      */
     protected function define_my_steps() {
+        $this->add_step( new restore_point_view_block_structure_step('point_view_structure', 'point_view.xml') );
     }
 
     /**
@@ -77,15 +81,24 @@ class restore_point_view_block_task extends restore_block_task {
                     if (preg_match('/^(moduleselectm|difficulty_)(\d+)/', $key, $match)) {
                         $field = $match[1];
                         $cmid = $match[2];
-                        list($course, $cm) = get_course_and_cm_from_cmid($cmid);
-                        $mapping = restore_dbops::get_backup_ids_record($this->get_restoreid(), $cm->modname, $cm->instance);
-                        list($course2, $newcm) = get_course_and_cm_from_instance($mapping->newitemid, $cm->modname);
+                        $cmidmapping = restore_dbops::get_backup_ids_record($this->get_restoreid(), 'course_module', $cmid);
                         unset($newconfig->{$field . $cmid});
-                        if ($newcm->id) {
-                            $newconfig->{$field . $newcm->id} = $value;
+                        if ($cmidmapping) {
+                            $newconfig->{$field . $cmidmapping->newitemid} = $value;
                         }
                     }
                 }
+
+                // Copy reaction votes if user data is included.
+                if ($this->get_setting_value('users')) {
+                    // Find restore step where some processing is done.
+                    foreach ($this->get_steps() as $step) {
+                        if ($step->get_name() == 'point_view_structure') {
+                            $step->process_reactions_after_restore();
+                        }
+                    }
+                }
+
                 // Encode and save the config.
                 $configdata = base64_encode(serialize($newconfig));
                 $DB->set_field('block_instances', 'configdata', $configdata, array('id' => $blockid));
