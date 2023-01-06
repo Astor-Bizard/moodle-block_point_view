@@ -124,18 +124,6 @@ class block_point_view extends block_base {
                 );
             }
 
-            if (($this->config->highlight_activity_rows ?? true)
-                    && !empty($this->config->enable_point_views)
-                    && !$this->page->user_is_editing()) {
-                // Add shade on hover of a course module (for Moodle <=3.11).
-                $this->content->text .= '<style type="text/css">
-                                            .activity:not(.activity-wrapper):hover{
-                                                background:linear-gradient(to right,rgba(0,0,0,0.04),rgba(0,0,0,0.04),transparent);
-                                                border-radius:5px;
-                                            }
-                                        </style>';
-            }
-
         } else if (has_capability('block/point_view:addinstance', $this->context)) {
 
             $this->content->text = get_string('blockdisabled', 'block_point_view');
@@ -175,7 +163,9 @@ class block_point_view extends block_base {
         parent::get_required_javascript();
 
         global $USER, $COURSE;
-        if (get_config('block_point_view', 'enable_point_views_admin') && !$this->page->user_is_editing()) {
+        if (get_config('block_point_view', 'enable_point_views_admin')
+                && !empty($this->config->enable_point_views)
+                && !$this->page->user_is_editing()) {
 
             require_once(__DIR__ . '/locallib.php');
 
@@ -202,8 +192,21 @@ class block_point_view extends block_base {
             $datanode = html_writer::span('', 'block_point_view', array(
                     'data-blockdata' => json_encode($blockdata), 'style' => 'display:none;'
             ));
+
+            if (($this->config->highlight_activity_rows ?? true)) {
+                // Add shade on hover of a course module (for Moodle <=3.11).
+                $cssnode = '<style type="text/css">
+                                .activity:not(.activity-wrapper):hover{
+                                    background:linear-gradient(to right,rgba(0,0,0,0.04),rgba(0,0,0,0.04),transparent);
+                                    border-radius:5px;
+                                }
+                            </style>';
+            } else {
+                $cssnode = '';
+            }
+
             $this->page->requires->js_init_code('document.getElementsByClassName("course-content")[0]
-                                                 .insertAdjacentHTML("beforeend", "' . addslashes_js($datanode) . '");');
+                                                 .insertAdjacentHTML("beforeend", "' . addslashes_js($datanode . $cssnode) . '");');
 
             $strings = array('totalreactions', 'greentrack', 'bluetrack', 'redtrack', 'blacktrack');
             $this->page->requires->strings_for_js($strings, 'block_point_view');
