@@ -290,11 +290,12 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
             // Several selectors for Moodle <=3.11 and 4.0+ compatibility.
             $('#module-' + moduleId + ' .actions,' +
               '#module-' + moduleId + ' .activity-info button[data-action="toggle-manual-completion"],' +
-              '#module-' + moduleId + ' .activity-info .automatic-completion-conditions > span.badge:first-of-type').delay(200).queue(function(next) {
+              '#module-' + moduleId + ' .activity-info .automatic-completion-conditions > span.badge:first-of-type')
+            .delay(200).queue(function(next) {
                 // Use opacity transition for a smooth hiding.
                 $(this).css({
                     opacity: 0,
-                    transition : 'opacity 0.3s ease-in-out'
+                    transition: 'opacity 0.3s ease-in-out'
                 });
                 next();
             }).delay(300).queue(function(next) {
@@ -351,12 +352,13 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
             // Several selectors for Moodle <=3.11 and 4.0+ compatibility.
             $('#module-' + moduleId + ' .actions,' +
               '#module-' + moduleId + ' .activity-info button[data-action="toggle-manual-completion"],' +
-              '#module-' + moduleId + ' .activity-info .automatic-completion-conditions > span.badge:first-of-type').delay(600).queue(function(next) {
+              '#module-' + moduleId + ' .activity-info .automatic-completion-conditions > span.badge:first-of-type')
+            .delay(600).queue(function(next) {
                 $(this).removeClass('invisible');
                 // Use opacity transition for a smooth showing back.
                 $(this).css({
                     opacity: 1,
-                    transition : 'opacity 0.3s ease-in-out'
+                    transition: 'opacity 0.3s ease-in-out'
                 });
                 next();
             });

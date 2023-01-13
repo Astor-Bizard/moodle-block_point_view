@@ -171,8 +171,7 @@ function block_point_view_get_difficulty_levels($blockinstance, $courseid) {
 function block_point_view_get_modules_with_reactions($blockinstance, $userid, $courseid) {
     global $DB;
 
-    if (!isset($blockinstance->config->enable_point_views)
-            || !$blockinstance->config->enable_point_views) {
+    if (empty($blockinstance->config->enable_point_views)) {
         return array();
     }
 

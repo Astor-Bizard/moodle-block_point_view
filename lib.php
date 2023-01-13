@@ -125,7 +125,7 @@ function block_point_view_global_db_replace($search, $replace) {
     $instances = $DB->get_recordset('block_instances', array('blockname' => 'point_view'));
     foreach ($instances as $instance) {
         $config = unserialize(base64_decode($instance->configdata));
-        if (isset($config->text) and is_string($config->text)) {
+        if (isset($config->text) && is_string($config->text)) {
             $config->text = str_replace($search, $replace, $config->text);
             $DB->update_record('block_instances', ['id' => $instance->id,
                 'configdata' => base64_encode(serialize($config)), 'timemodified' => time()]);
