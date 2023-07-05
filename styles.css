@@ -152,7 +152,7 @@
 
 /* For Moodle 4.0+. */
 .path-course-view .activity-instance .block_point_view.track {
-    height: 50px;
+    height: 100%;
 }
 
 .block_point_view.selecttrack {
