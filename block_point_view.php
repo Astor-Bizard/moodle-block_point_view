@@ -164,7 +164,7 @@ class block_point_view extends block_base {
 
         global $USER, $COURSE;
         if (get_config('block_point_view', 'enable_point_views_admin')
-                && !empty($this->config->enable_point_views)
+                && (!empty($this->config->enable_point_views) || !empty($this->config->enable_difficultytracks))
                 && !$this->page->user_is_editing()) {
 
             require_once(__DIR__ . '/locallib.php');
