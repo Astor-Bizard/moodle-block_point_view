@@ -159,6 +159,23 @@
     height: 2.4em;
 }
 
+/* Configuration menu for Moodle 4.0+ */
+.block_point_view [data-groupname^="config_activity_"] fieldset {
+    align-self: center;
+}
+
+.block_point_view [data-groupname^="config_activity_"] p .activityiconcontainer {
+    margin-right: .5em;
+}
+
+.block_point_view [data-groupname^="config_activity_"] p .activity-name {
+    vertical-align: super;
+}
+
+.block_point_view [data-groupname^="config_activity_"] label .activity-name {
+    vertical-align: middle;
+}
+
 /* Menu button in block content */
 .block_point_view .overview-link {
     max-height: 40px;

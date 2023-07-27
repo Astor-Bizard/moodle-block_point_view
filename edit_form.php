@@ -130,10 +130,16 @@ class block_point_view_edit_form extends block_edit_form {
                     $oldsection = $cm->sectionnum;
                 }
 
+                $purposeclass = '';
+                if (defined('FEATURE_MOD_PURPOSE')) {
+                    $purposeclass = ' ' . plugin_supports('mod', $cm->modname, FEATURE_MOD_PURPOSE, MOD_PURPOSE_OTHER);
+                }
                 $icon = $OUTPUT->pix_icon('icon', $cm->get_module_type_name(), $cm->modname,
                         array('class' => 'iconlarge activityicon'));
+                $icon = html_writer::span($icon, 'activityiconcontainer' . $purposeclass);
+                $name = html_writer::span($cm->get_formatted_name(), 'activity-name');
 
-                $this->add_activity_config($mform, $cm->id, $sectionid, $cm->modname, $icon . $cm->get_formatted_name());
+                $this->add_activity_config($mform, $cm->id, $sectionid, $cm->modname, $icon . $name);
             }
 
             // Emoji configuration.
