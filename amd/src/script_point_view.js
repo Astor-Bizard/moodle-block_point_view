@@ -45,8 +45,9 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
      * Set up difficulty tracks on course modules.
      * @param {Array} difficultyLevels Array of difficulty tracks, one entry for each course module.
      * @param {Array} trackColors Tracks colors, from block plugin configuration.
+     * @param {Number|null} cmid The course module ID, if this page is a module view.
      */
-    function setUpDifficultyTracks(difficultyLevels, trackColors) {
+    function setUpDifficultyTracks(difficultyLevels, trackColors, cmid) {
         difficultyLevels.forEach(function(module) {
             var difficultyLevel = parseInt(module.difficultyLevel);
             var title = '';
@@ -73,6 +74,10 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
             // If there is indentation, move the track after it.
             $container.find('.mod-indent').after($track);
 
+            if (cmid === module.id) {
+                // This is a module page, add the track to the title.
+                $('.page-context-header').prepend($track);
+            }
         });
     }
 
@@ -110,8 +115,9 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
      * @param {Array} modulesWithReactions Array of reactions state, one entry for each course module with reactions enabled.
      * @param {String} reactionsHtml HTML fragment for reactions.
      * @param {Array} pixSrc Array of pictures sources for group images.
+     * @param {Number|null} cmid The course module ID, if this page is a module view.
      */
-    function setUpReactions(courseId, modulesWithReactions, reactionsHtml, pixSrc) {
+    function setUpReactions(courseId, modulesWithReactions, reactionsHtml, pixSrc, cmid) {
         // For each selected module, create a reaction zone.
         modulesWithReactions.forEach(function(module) {
             var moduleId = parseInt(module.cmid);
@@ -119,6 +125,10 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 
             // Initialise reactionVotedArray.
             reactionVotedArray[moduleId] = uservote;
+
+            if (module.cmid === cmid) {
+                $('.header-actions-container').after('<div id="module-' + moduleId + '" class="activity-wrapper" style="margin-right: 30px;width: 165px;">');
+            }
 
             if ($('#module-' + moduleId).length === 1 && $get(moduleId).length === 0) {
 
@@ -430,9 +440,12 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
 
                 var blockData = $('.block_point_view[data-blockdata]').data('blockdata');
 
+                var cmid = null; // If this page is a course module view, retrieve the module ID.
+                $('body')[0].className.split(/\s+/).forEach(e => cmid = (e = e.match(/cmid-(\d+)/)) ? e[1] : cmid);
+
                 callOnModulesListLoad(function() {
-                    setUpDifficultyTracks(blockData.difficultylevels, blockData.trackcolors);
-                    setUpReactions(courseId, blockData.moduleswithreactions, blockData.reactionstemplate, blockData.pix);
+                    setUpDifficultyTracks(blockData.difficultylevels, blockData.trackcolors, cmid);
+                    setUpReactions(courseId, blockData.moduleswithreactions, blockData.reactionstemplate, blockData.pix, cmid);
                 });
 
             });

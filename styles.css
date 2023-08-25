@@ -89,6 +89,16 @@
     right: 8px;
 }
 
+.path-mod #page-header .block_point_view.reactions-container {
+    bottom: 1em;
+    right: 1.5em;
+}
+
+.path-mod #page-header .block_point_view.reactions-container .group {
+    width: max-content;
+}
+
+
 /**********************/
 
 .block_point_view.reactions-container .reaction,
@@ -144,7 +154,8 @@
     margin-right: 5px;
 }
 
-.path-course-view .activity .block_point_view.track {
+.path-course-view .activity .block_point_view.track,
+.path-mod .page-context-header .block_point_view.track {
     padding: 0;
     position: absolute;
     margin-left: -15px;
@@ -153,6 +164,9 @@
 /* For Moodle 4.0+. */
 .path-course-view .activity-instance .block_point_view.track {
     height: 100%;
+}
+.path-mod .page-context-header .block_point_view.track {
+    height: 50px;
 }
 
 .block_point_view.selecttrack {

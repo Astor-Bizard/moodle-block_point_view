@@ -83,7 +83,7 @@ $sql = 'SELECT cmid,
 
 $result = $DB->get_records_sql($sql, array('courseid' => $courseid));
 
-$users = $DB->get_records('user', null, '', user_picture::fields());
+$users = $DB->get_records('user', null, '', implode(',', \core_user\fields::get_picture_fields()));
 
 $sqldata = $DB->get_records('block_point_view', ['courseid' => $courseid], '', 'id,cmid,userid,vote');
 

@@ -205,7 +205,7 @@ class block_point_view extends block_base {
                 $cssnode = '';
             }
 
-            $this->page->requires->js_init_code('document.getElementsByClassName("course-content")[0]
+            $this->page->requires->js_init_code('document.querySelectorAll(".course-content, #page")[0]
                                                  .insertAdjacentHTML("beforeend", "' . addslashes_js($datanode . $cssnode) . '");');
 
             $strings = array('totalreactions', 'greentrack', 'bluetrack', 'redtrack', 'blacktrack');
@@ -261,6 +261,18 @@ class block_point_view extends block_base {
     public function instance_config_commit($nolongerused = false) {
         // Do not touch any files if this is a commit from somewhere else.
         parent::instance_config_save($this->config);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see block_base::instance_create()
+     */
+    function instance_create() {
+        global $DB;
+        // Show the block in subcontexts (we need it to be present on activities pages).
+        $DB->update_record('block_instances',
+                array('id' => $this->instance->id, 'showinsubcontexts' => 1, 'pagetypepattern' => '*'));
+        return true;
     }
 
     /**
