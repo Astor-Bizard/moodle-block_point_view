@@ -29,6 +29,9 @@ $string['adminpix'] = 'Site default:';
 $string['blacktrack'] = 'Black track';
 $string['bluetrack'] = 'Blue track';
 $string['blockdisabled'] = '<h3 class="text-danger">The block is disabled</h3>';
+$string['blockonlyonmainpage'] = 'This block will not show difficulty tracks or reactions on course module pages because it is not shown in this course subcontexts.';
+$string['confirmshowinsubcontexts'] = 'Are you sure to make this block visible in subcontexts?<br>
+(This can be turned back in the block configuration, in "Where this block appears").';
 $string['contentinputlabel'] = 'Block Content';
 $string['contentinputlabel_help'] = 'This field allows to modify the text visible in the block. If left empty, the block will be invisible to students.';
 $string['customemoji'] = 'Custom emoji';
@@ -63,6 +66,7 @@ $string['enable_disable_type_help'] = 'Enable or disable reactions for all activ
 $string['enable_type'] = 'Enable all <b>{$a}</b>';
 $string['errorfilemanager'] = '<b>ERROR</b>: The name of <b>{$a}.png</b> is not conform.';
 $string['errorfilemanagerempty'] = 'Please provide at least one file.';
+$string['forthismodule'] = 'For this module ({$a}):';
 $string['greentrack'] = 'Green track';
 $string['highlightactivityrows'] = 'Highlight activity rows on course page';
 $string['highlightactivityrows_help'] = 'Display a gray gradient background on hover over activities on the course page. This is meant to help with vertical alignment of reactions on activities, but can be safely disabled.';
@@ -78,6 +82,7 @@ $string['resetcoursereactions'] = 'Reset <b>{$a}</b> course reactions';
 $string['resetreactions'] = 'Reset reactions';
 $string['resetreactions_help'] = 'Reset (delete) all users reactions in the course';
 $string['resetreactionsconfirmation'] = 'Are you sure you want to reset (delete) all users reactions of course <b>{$a}</b>? This action can not be undone.';
+$string['showinsubcontexts'] = 'Also show this block on subcontexts.';
 $string['showotherreactions'] = 'Show other users reactions';
 $string['showotherreactions_help'] = 'Allow students to see the number of reactions of each type from other users on a module.';
 $string['totalreactions'] = 'Total reactions: {$a}';

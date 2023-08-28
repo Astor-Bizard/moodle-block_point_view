@@ -124,6 +124,43 @@ class block_point_view extends block_base {
                 );
             }
 
+            if ($this->page->cm !== null
+                    && (!empty($this->config->enable_point_views) || !empty($this->config->enable_difficultytracks))
+                    && has_capability('moodle/block:edit', $this->context)) {
+                $this->content->text .= html_writer::div(
+                        get_string('forthismodule', 'block_point_view', $this->page->cm->get_formatted_name()), 'mt-3 mb-2');
+                $moduleform = new block_point_view\module_form(new moodle_url('/blocks/point_view/action/updatemodule.php'),
+                        array(
+                                'cmid' => $this->page->cm->id,
+                                'blockconfig' => $this->config,
+                                'blockinstanceid' => $this->instance->id,
+                                'returnurl' => $this->page->url
+                        ));
+                $moduleform->set_data(array(
+                        'enablereactions' => $this->config->{'moduleselectm' . $this->page->cm->id},
+                        'difficultytrack' => $this->config->{'difficulty_' . $this->page->cm->id},
+                ));
+                $this->content->text .= $moduleform->render();
+            }
+
+            if ((!$this->instance->showinsubcontexts || !preg_match('/^(?:mod-)?\\*$/', $this->instance->pagetypepattern))
+                    && has_capability('moodle/block:edit', $this->context)) {
+                $this->content->text .=
+                    '<div>
+                        <i class="fa fa-info-circle text-info mr-1"></i>' .
+                        get_string('blockonlyonmainpage', 'block_point_view') .
+                    '</div>
+                    <form method="post" action="' . $CFG->wwwroot . '/blocks/point_view/action/showinsubcontexts.php">
+                        <input name="sesskey" type="hidden" value="' . sesskey() . '">
+                        <input name="blockinstanceid" type="hidden" value="' . $this->instance->id . '">
+                        <input name="returnurl" type="hidden" value="' . $this->page->url . '">
+                        <input id="block_point_view_showinsubcontexts" type="submit"
+                            value="' . get_string('showinsubcontexts', 'block_point_view') . '" class="btn btn-link p-0">
+                    </form>';
+                $this->page->requires->event_handler('#block_point_view_showinsubcontexts', 'click', 'M.util.show_confirm_dialog',
+                        array('message' => get_string('confirmshowinsubcontexts', 'block_point_view')));
+            }
+
         } else if (has_capability('block/point_view:addinstance', $this->context)) {
 
             $this->content->text = get_string('blockdisabled', 'block_point_view');
@@ -162,12 +199,12 @@ class block_point_view extends block_base {
     public function get_required_javascript() {
         parent::get_required_javascript();
 
+        require_once(__DIR__ . '/locallib.php');
+
         global $USER, $COURSE;
         if (get_config('block_point_view', 'enable_point_views_admin')
                 && (!empty($this->config->enable_point_views) || !empty($this->config->enable_difficultytracks))
-                && !$this->page->user_is_editing()) {
-
-            require_once(__DIR__ . '/locallib.php');
+                && (!$this->page->user_is_editing() || $this->page->cm !== null)) {
 
             // Build data for javascript.
             $blockdata = new stdClass();
@@ -211,6 +248,11 @@ class block_point_view extends block_base {
             $strings = array('totalreactions', 'greentrack', 'bluetrack', 'redtrack', 'blacktrack');
             $this->page->requires->strings_for_js($strings, 'block_point_view');
             $this->page->requires->js_call_amd('block_point_view/script_point_view', 'init', array($COURSE->id));
+        }
+
+        if (get_config('block_point_view', 'enable_point_views_admin') && $this->page->cm !== null) {
+            $this->page->requires->js_call_amd('block_point_view/script_config_point_view',
+                    'setupDifficultyTrackChange', array(block_point_view_get_track_colors()));
         }
     }
 
@@ -268,10 +310,9 @@ class block_point_view extends block_base {
      * @see block_base::instance_create()
      */
     function instance_create() {
-        global $DB;
+        require_once(__DIR__ . '/locallib.php');
         // Show the block in subcontexts (we need it to be present on activities pages).
-        $DB->update_record('block_instances',
-                array('id' => $this->instance->id, 'showinsubcontexts' => 1, 'pagetypepattern' => '*'));
+        block_point_view_show_in_subcontexts($this->instance->id);
         return true;
     }
 

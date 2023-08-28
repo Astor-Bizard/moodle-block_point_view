@@ -190,6 +190,11 @@
     vertical-align: middle;
 }
 
+.block_point_view #fgroup_id_point_view_for_module > div.col-md-9 {
+    flex-basis: 100%;
+    max-width: 100%;
+}
+
 /* Menu button in block content */
 .block_point_view .overview-link {
     max-height: 40px;

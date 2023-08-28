@@ -292,3 +292,13 @@ function block_point_view_require_edit_form_javascript($blockcontextid) {
     $PAGE->requires->strings_for_js(array('deleteemojiconfirmation', 'reactionsresetsuccessfully'), 'block_point_view');
     $PAGE->requires->strings_for_js(array('ok', 'info'), 'moodle');
 }
+
+/**
+ * Change where this block appears to display it in subcontexts (especially course module pages).
+ *
+ * @param int $blockinstanceid Block instance ID.
+ */
+function block_point_view_show_in_subcontexts($blockinstanceid) {
+    global $DB;
+    $DB->update_record('block_instances', array('id' => $blockinstanceid, 'showinsubcontexts' => 1, 'pagetypepattern' => '*'));
+}

@@ -15,18 +15,25 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Block version
+ * Show this block in subcontexts (to display it on course module pages) then redirect.
  *
  * @package    block_point_view
- * @copyright  2020 Quentin Fombaron, 2021 Astor Bizard
- * @author     Quentin Fombaron <q.fombaron@outlook.fr>
+ * @copyright  2023 Astor Bizard
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+require_once(__DIR__ . '/../../../config.php');
 
-$plugin->component = 'block_point_view';
-$plugin->version   = 2023082800;
-$plugin->requires  = 2022041900; // Moodle 4.0.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '2.0';
+require_login();
+require_sesskey();
+
+global $DB, $CFG;
+$blockinstanceid = required_param('blockinstanceid', PARAM_INT);
+
+$contextid = $DB->get_record('block_instances', array('id' => $blockinstanceid))->parentcontextid;
+require_capability('moodle/block:edit', context::instance_by_id($contextid));
+
+require_once($CFG->dirroot . '/blocks/point_view/locallib.php');
+block_point_view_show_in_subcontexts($blockinstanceid);
+
+redirect(required_param('returnurl', PARAM_RAW));
