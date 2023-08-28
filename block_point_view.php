@@ -309,7 +309,7 @@ class block_point_view extends block_base {
      * {@inheritDoc}
      * @see block_base::instance_create()
      */
-    function instance_create() {
+    public function instance_create() {
         require_once(__DIR__ . '/locallib.php');
         // Show the block in subcontexts (we need it to be present on activities pages).
         block_point_view_show_in_subcontexts($this->instance->id);
