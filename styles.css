@@ -77,6 +77,9 @@
     right: -60px;
     width: max-content;
 }
+.activity-wrapper.label .block_point_view.reactions-container .reactions {
+    right: -30px
+}
 
 .block_point_view.reactions-container .group {
     position: absolute;
@@ -87,6 +90,9 @@
 /* For Moodle 4.0+. */
 .activity-wrapper .block_point_view.reactions-container .group {
     right: 8px;
+}
+.activity-wrapper.label .block_point_view.reactions-container .group {
+    right: 38px
 }
 
 .path-mod #page-header .block_point_view.reactions-container {
