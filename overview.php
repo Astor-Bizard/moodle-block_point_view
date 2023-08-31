@@ -282,9 +282,7 @@ if (!empty($result)) {
             $PAGE->url->params()
     );
 } else {
-
-    echo html_writer::tag('h4', get_string('nothingtodisplay'));
-
+    echo html_writer::tag('h4', get_string('noreactionsyet', 'block_point_view'));
 }
 
 echo $OUTPUT->container_end();

@@ -113,9 +113,23 @@ class block_point_view_external extends external_api {
 
                 break;
             case 'reset':
-                // Reset all reactions of course.
+                // Reset all reactions of course or module.
                 require_capability('moodle/site:manageblocks', $coursecontext);
-                $DB->delete_records($table, array('courseid' => $params['courseid']));
+                if ($params['cmid'] == 0) {
+                    // Delete for all the course.
+                    $DB->delete_records($table, array('courseid' => $params['courseid']));
+                } else {
+                    // Delete only for a module.
+                    $DB->delete_records($table, array('courseid' => $params['courseid'], 'cmid' => $params['cmid']));
+                }
+                break;
+            case 'cleanup':
+                // Cleanup reactions of users no longer enrolled in course.
+                require_capability('moodle/site:manageblocks', $coursecontext);
+                $users = get_enrolled_users($coursecontext, '', 0, 'u.id');
+                list($notin, $sqlparams) = $DB->get_in_or_equal(array_column($users, 'id'), SQL_PARAMS_QM, '', false);
+                $sqlparams[] = $params['courseid'];
+                $DB->delete_records_select($table, "userid $notin AND courseid = ?", $sqlparams);
                 break;
             default:
                 break;
