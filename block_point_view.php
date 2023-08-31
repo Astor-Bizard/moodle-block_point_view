@@ -137,8 +137,8 @@ class block_point_view extends block_base {
                                 'returnurl' => $this->page->url
                         ));
                 $moduleform->set_data(array(
-                        'enablereactions' => $this->config->{'moduleselectm' . $this->page->cm->id} > 0 ? 1 : 0,
-                        'difficultytrack' => $this->config->{'difficulty_' . $this->page->cm->id},
+                        'enablereactions' => ($this->config->{'moduleselectm' . $this->page->cm->id} ?? 0) > 0 ? 1 : 0,
+                        'difficultytrack' => $this->config->{'difficulty_' . $this->page->cm->id} ?? 0,
                 ));
                 $this->content->text .= $moduleform->render();
             }
