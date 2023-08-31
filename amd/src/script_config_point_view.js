@@ -146,6 +146,22 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
                 });
             });
 
+            // Course reactions cleanup.
+            buttonWithAjaxCall(
+                    $('#cleanup_reactions'),
+                    'cleanupreactionsconfirmation',
+                    'update_db',
+                    {
+                        func: 'cleanup',
+                        courseid: envconf.courseid
+                    },
+                    function() {
+                        notification.alert(M.util.get_string('info', 'moodle'),
+                                M.util.get_string('reactionscleanedupsuccessfully', 'block_point_view'),
+                                M.util.get_string('ok', 'moodle'));
+                    }
+            );
+
             // Course reactions reset.
             buttonWithAjaxCall(
                     $('#reset_reactions'),
@@ -161,6 +177,26 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
                                 M.util.get_string('ok', 'moodle'));
                     }
             );
+
+            // Module reactions reset.
+            $('[data-role=reset_module').each(function() {
+                var cmid = $(this).data('cmid');
+                buttonWithAjaxCall(
+                        $(this),
+                        'resetreactionsonmoduleconfirmation',
+                        'update_db',
+                        {
+                            func: 'reset',
+                            courseid: envconf.courseid,
+                            cmid: cmid
+                        },
+                        function() {
+                            notification.alert(M.util.get_string('info', 'moodle'),
+                                    M.util.get_string('reactionsresetsuccessfully', 'block_point_view'),
+                                    M.util.get_string('ok', 'moodle'));
+                        }
+                );
+            });
         }
     };
 });

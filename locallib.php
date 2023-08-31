@@ -289,6 +289,12 @@ function block_point_view_require_edit_form_javascript($blockcontextid) {
 
     $PAGE->requires->js_call_amd('block_point_view/script_config_point_view', 'init', $params);
     $PAGE->requires->string_for_js('resetreactionsconfirmation', 'block_point_view', format_string($COURSE->fullname));
-    $PAGE->requires->strings_for_js(array('deleteemojiconfirmation', 'reactionsresetsuccessfully'), 'block_point_view');
+    $PAGE->requires->string_for_js('cleanupreactionsconfirmation', 'block_point_view', format_string($COURSE->fullname));
+    $PAGE->requires->strings_for_js(array(
+                                            'deleteemojiconfirmation',
+                                            'reactionsresetsuccessfully',
+                                            'reactionscleanedupsuccessfully',
+                                            'resetreactionsonmoduleconfirmation'
+                                    ), 'block_point_view');
     $PAGE->requires->strings_for_js(array('ok', 'info'), 'moodle');
 }

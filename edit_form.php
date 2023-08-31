@@ -45,7 +45,7 @@ class block_point_view_edit_form extends block_edit_form {
      */
     protected function specific_definition($mform) {
 
-        global $COURSE, $OUTPUT;
+        global $COURSE, $OUTPUT, $DB;
 
         if (get_config('block_point_view', 'enable_point_views_admin')) {
 
@@ -147,12 +147,46 @@ class block_point_view_edit_form extends block_edit_form {
             $this->add_emoji_selection($mform);
 
             // Reaction reinitialisation.
-            $mform->addElement('header', 'reset_header', get_string('resetreactions', 'block_point_view'));
+            $mform->addElement('header', 'reset_header', get_string('resetreactionsheader', 'block_point_view'));
 
-            $mform->addElement('static', 'reaction_reset_button',
-                    $this->get_action_button('reset_reactions', 'resetcoursereactions', format_string($COURSE->fullname)));
+            $buttons = $this->get_action_button('cleanup_reactions', 'warning',
+                    'cleanupcoursereactions', format_string($COURSE->fullname));
+            $buttons .= $OUTPUT->help_icon('cleanupreactions', 'block_point_view');
+            $buttons .= $this->get_action_button('reset_reactions', 'danger',
+                    'resetcoursereactions', format_string($COURSE->fullname));
+            $buttons .= $OUTPUT->help_icon('resetreactions', 'block_point_view');
 
-            $mform->addHelpButton('reaction_reset_button', 'resetreactions', 'block_point_view');
+            $mform->addElement('html', html_writer::div($buttons, 'mt-2 mb-3'));
+
+            $cms = get_fast_modinfo($COURSE->id, -1)->cms;
+            $cmshtml = '';
+            if (count($cms)) {
+                $sectionid = -1;
+                foreach ($cms as $cm) {
+                    if (!$DB->record_exists('block_point_view', array('courseid' => $COURSE->id, 'cmid' => $cm->id))) {
+                        continue;
+                    }
+                    if ($cm->section != $sectionid) {
+                        if ($sectionid != -1) {
+                            $cmshtml .= '</div>'; // Close section.
+                        }
+                        $sectionid = $cm->section;
+                        // Open section.
+                        $cmshtml .= '<div class="pl-3"><h3>' . get_section_name($COURSE->id, $cm->sectionnum) . '</h3>';
+                    }
+                    $icon = $OUTPUT->image_icon('icon', $cm->modfullname, $cm->modname, array('class' => 'activityicon'));
+                    $resetbutton = $this->get_action_button('', 'danger', 'resetreactions', null,
+                            'data-cmid="' . $cm->id    . '" data-role="reset_module"');
+                    $cmshtml .= html_writer::div($icon . $cm->get_formatted_name() . $resetbutton, 'mb-1');
+                }
+            }
+            if (empty($cmshtml)) {
+                $cmshtml = get_string('noreactionsyet', 'block_point_view');
+            } else {
+                $cmshtml .= '</div>'; // Close section.
+            }
+            $mform->addElement('html', html_writer::div(
+                    html_writer::tag('legend', get_string('resetreactionsbymodule', 'block_point_view')) . $cmshtml, 'ml-3 mb-2'));
 
             // Call javascript from a static function in locallib, because Moodle linter won't let us call global $PAGE from here
             // (and $this->page actually contains the course page, not the edit form page).
@@ -393,12 +427,15 @@ class block_point_view_edit_form extends block_edit_form {
      * Helper function to create an action button.
      *
      * @param string $id Button id.
+     * @param string $type Button outline type (e.g. 'warning', 'danger'...).
      * @param string $str String identifier for the button label (in block_point_view component).
      * @param string|null $a Additional data to pass to get_string for button label.
+     * @param string $dataattributes HTML data attributes.
      * @return string HTML fragment for the button.
      */
-    protected function get_action_button($id, $str, $a = null) {
-        return '<button id="' . $id . '" class="btn btn-outline-warning ml-3" type="button">' .
+    protected function get_action_button($id, $type, $str, $a = null, $dataattributes = '') {
+        return '<button ' . ($id ? 'id="' . $id . '"' : '') . 'class="btn btn-outline-' . $type . ' ml-3 mr-1"
+                type="button" ' . $dataattributes . '>' .
                    get_string($str, 'block_point_view', $a) .
                '</button>';
     }
