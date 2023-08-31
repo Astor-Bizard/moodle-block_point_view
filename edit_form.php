@@ -337,7 +337,7 @@ class block_point_view_edit_form extends block_edit_form {
         }
 
         if ($custompixexist) {
-            $deletecustombutton = $this->get_action_button('delete_custom_pix', 'delete_custom_pix');
+            $deletecustombutton = $this->get_action_button('delete_custom_pix', 'warning', 'delete_custom_pix');
         } else {
             $pix['custom'] = array();
             $deletecustombutton = null;
