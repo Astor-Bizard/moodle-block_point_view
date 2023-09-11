@@ -42,8 +42,13 @@ if (optional_param('submitbutton', false, PARAM_RAW) !== false
 
     if ($blockrecord !== false) {
         $blockinstance = block_instance('point_view', $blockrecord);
-        $blockinstance->config->{'moduleselectm' . $cmid} = required_param('enablereactions', PARAM_BOOL) ? $cmid : 0;
-        $blockinstance->config->{'difficulty_' . $cmid} = required_param('difficultytrack', PARAM_INT);
+        // Params are optional because some instances have reactions or tracks disabled.
+        if (($reactions = optional_param('enablereactions', null, PARAM_BOOL)) !== null) {
+            $blockinstance->config->{'moduleselectm' . $cmid} = $reactions ? $cmid : 0;
+        }
+        if (($track = optional_param('difficultytrack', null, PARAM_INT)) !== null) {
+            $blockinstance->config->{'difficulty_' . $cmid} = $track;
+        }
         $blockinstance->instance_config_commit();
     }
 }
