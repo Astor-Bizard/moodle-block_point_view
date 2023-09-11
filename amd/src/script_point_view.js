@@ -127,7 +127,9 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, ajax, notificat
             reactionVotedArray[moduleId] = uservote;
 
             if (module.cmid === cmid) {
-                $('.header-actions-container').after('<div id="module-' + moduleId + '" class="activity-wrapper" style="margin-right: 30px;width: 165px;">');
+                // This is a module view page. Add a module-<ID> container to the page for all following actions.
+                $('.header-actions-container')
+                .after('<div id="module-' + moduleId + '" class="activity-wrapper" style="margin-right: 30px;width: 165px;">');
             }
 
             if ($('#module-' + moduleId).length === 1 && $get(moduleId).length === 0) {
